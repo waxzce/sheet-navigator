@@ -30,7 +30,7 @@ Cross-platform Office Add-in (Mac, Windows, Web) that adds a side panel to Excel
 
 - macOS or Windows, Node.js LTS (≥ 20) — `brew install node` or `nvm install --lts`
 - Recent Excel (Microsoft 365)
-- [`clever-tools`](https://www.clever-cloud.com/doc/clever-tools/getting_started/) for deployment: `npm install -g clever-tools && clever login`
+- [`clever-tools`](https://www.clever.cloud/doc/clever-tools/getting_started/) for deployment: `npm install -g clever-tools && clever login`
 
 ## Quick start
 

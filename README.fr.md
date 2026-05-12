@@ -31,7 +31,7 @@ Add-in Office cross-platform (macOS, Windows, Web) qui ajoute à Excel un **vole
 
 - macOS, Node.js LTS (≥ 20) — `brew install node` ou `nvm install --lts`
 - Excel pour Mac récent (Microsoft 365)
-- [`clever-tools`](https://www.clever-cloud.com/doc/clever-tools/getting_started/) pour le déploiement : `npm install -g clever-tools && clever login`
+- [`clever-tools`](https://www.clever.cloud/doc/clever-tools/getting_started/) pour le déploiement : `npm install -g clever-tools && clever login`
 
 ## Démarrage rapide
 

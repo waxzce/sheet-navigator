@@ -13,7 +13,7 @@
   <Description DefaultValue="Volet lateral de navigation entre les feuilles d'un classeur Excel. Build local de developpement." />
   <IconUrl DefaultValue="https://localhost:3000/assets/icon-32.png" />
   <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-64.png" />
-  <SupportUrl DefaultValue="https://www.clever-cloud.com/" />
+  <SupportUrl DefaultValue="https://www.clever.cloud/" />
   <AppDomains>
     <AppDomain>https://localhost:3000</AppDomain>
   </AppDomains>
@@ -72,7 +72,7 @@
         <bt:Image id="Icon.80x80" DefaultValue="https://localhost:3000/assets/icon-80.png" />
       </bt:Images>
       <bt:Urls>
-        <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://www.clever-cloud.com/" />
+        <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://www.clever.cloud/" />
         <bt:Url id="Commands.Url" DefaultValue="https://localhost:3000/commands.html" />
         <bt:Url id="Taskpane.Url" DefaultValue="https://localhost:3000/taskpane.html" />
       </bt:Urls>
