@@ -71,6 +71,7 @@ module.exports = async (env, options) => {
         patterns: [
           { from: "assets/*", to: "assets/[name][ext][query]" },
           { from: "src/install.html", to: "install.html" },
+          { from: "src/install.html", to: "index.html" },
           { from: "manifests/manifest.prod.xml", to: "manifest.xml" },
         ],
       }),
