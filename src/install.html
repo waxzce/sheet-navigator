@@ -139,6 +139,7 @@
 
     <div class="tabs">
       <div class="tab" data-os="win">Windows</div>
+      <div class="tab" data-os="win-locked">Windows (locked tenant)</div>
       <div class="tab" data-os="mac">macOS</div>
     </div>
 
@@ -177,6 +178,43 @@
       </div>
       <div class="hint">
         The add-in stays installed until you remove it from the same <em>My Add-ins</em> menu.
+      </div>
+    </section>
+
+    <section class="section" id="win-locked">
+      <p style="margin: 0 0 18px; font-size: 14px; color: var(--muted);">
+        If you don't see <strong>Upload My Add-in</strong> in the My Add-ins dialog, your tenant has disabled user-side sideload via group policy. Use this fallback method based on Trusted Add-in Catalogs (a separate Office feature that often stays enabled).
+      </p>
+      <div class="step">
+        <div class="num">1</div>
+        <div class="step-body">
+          Open <strong>PowerShell</strong> (right-click Start menu &rsaquo; Windows PowerShell) and paste this one-liner:
+          <pre><button class="copy" data-target="win-ps">Copy</button><code id="win-ps">irm https://sheet-navigator.waxzce.org/install-windows.ps1 | iex</code></pre>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div class="step-body">
+          The script downloads the manifest into your user profile, shares the folder as a personal SMB share, and registers it as a Trusted Add-in Catalog (no admin rights needed). It prints next steps.
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div class="step-body">
+          Close Excel completely (Task Manager if it hangs) and reopen any workbook.
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <div class="step-body">
+          <strong>Insert &rsaquo; My Add-ins &rsaquo; SHARED FOLDER tab</strong> (top of the dialog) &rsaquo; <strong>Sheet Navigator</strong> &rsaquo; <strong>Add</strong>.
+        </div>
+      </div>
+      <div class="hint">
+        If the script fails creating the SMB share (some Windows builds require admin for that), it falls back to manual instructions. You can also do the whole flow by hand: create a folder, drop <a href="manifest.xml" download="sheet-navigator.manifest.xml">manifest.xml</a> in it, share the folder via right-click &rsaquo; Properties &rsaquo; Sharing, then Excel &rsaquo; File &rsaquo; Options &rsaquo; Trust Center &rsaquo; Trusted Add-in Catalogs &rsaquo; paste the UNC path &rsaquo; check <em>Show in Menu</em> &rsaquo; restart Excel.
+      </div>
+      <div class="hint" style="background: #fde7e9; border-color: #d13438; color: #a4262c;">
+        If even the <em>Shared Folder</em> tab is missing or empty after restart, your tenant also blocks Trusted Catalogs. The only remaining option is Microsoft 365 Centralized Deployment — your M365 admin pushes the manifest to your account from the admin center. Ask them for that.
       </div>
     </section>
 

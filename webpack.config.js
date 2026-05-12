@@ -72,6 +72,7 @@ module.exports = async (env, options) => {
           { from: "assets/*", to: "assets/[name][ext][query]" },
           { from: "src/index.html", to: "index.html" },
           { from: "src/install.html", to: "install.html" },
+          { from: "scripts/install-windows.ps1", to: "install-windows.ps1" },
           { from: "manifests/manifest.prod.xml", to: "manifest.xml" },
         ],
       }),
