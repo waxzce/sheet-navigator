@@ -17,6 +17,15 @@ type Props = {
   onDragOver: (e: React.DragEvent) => void;
   onDrop: () => void;
   draggingOver: boolean;
+  // Profondeur dans l'arbre. 0 = racine. Ignore en mode "breadcrumb".
+  depth?: number;
+  // Nom de feuille affiche. Si non fourni, on prend sheet.name.
+  // En arbre, on passe le dernier segment ("France" pour "Region/France").
+  // En recherche, on passe le chemin complet.
+  displayName?: string;
+  // Si fourni, affiche le chemin parent en plus petit a cote du nom
+  // (mode breadcrumb pour les resultats de recherche).
+  breadcrumb?: string | null;
 };
 
 export function SheetRow({
@@ -28,9 +37,13 @@ export function SheetRow({
   onDragOver,
   onDrop,
   draggingOver,
+  depth = 0,
+  displayName,
+  breadcrumb,
 }: Props): JSX.Element {
   const [hover, setHover] = React.useState(false);
   const isHidden = sheet.visibility !== Excel.SheetVisibility.visible;
+  const label = displayName ?? sheet.name;
 
   return (
     <div
@@ -54,7 +67,8 @@ export function SheetRow({
         alignItems: "center",
         gap: 8,
         height: 34,
-        padding: "0 8px",
+        paddingLeft: 8 + depth * 14,
+        paddingRight: 8,
         cursor: "pointer",
         backgroundColor: sheet.isActive
           ? "var(--colorBrandBackground2, #ebf3fc)"
@@ -87,10 +101,18 @@ export function SheetRow({
           overflow: "hidden",
           textOverflow: "ellipsis",
           fontWeight: sheet.isActive ? 600 : 400,
+          display: "flex",
+          alignItems: "baseline",
+          gap: 6,
         }}
         title={sheet.name}
       >
-        {sheet.name}
+        {breadcrumb && (
+          <span style={{ color: "#a19f9d", fontSize: 11, fontWeight: 400, flex: "0 0 auto" }}>
+            {breadcrumb}/
+          </span>
+        )}
+        <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>{label}</span>
       </span>
       {(hover || sheet.isPinned) && (
         <Tooltip content={sheet.isPinned ? "Detacher" : "Epingler"} relationship="label">

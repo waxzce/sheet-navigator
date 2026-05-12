@@ -18,18 +18,22 @@ export type UseWorksheetsResult = {
   sheets: SheetInfo[];
   loading: boolean;
   error: string | null;
+  collapsedFolders: Set<string>;
   activate: (id: string) => Promise<void>;
   rename: (id: string, newName: string) => Promise<void>;
   reorder: (id: string, targetPosition: number) => Promise<void>;
   toggleHidden: (id: string) => Promise<void>;
   pin: (id: string) => Promise<void>;
+  toggleFolder: (path: string) => void;
+  moveSheet: (id: string, targetFolder: string | null, targetPosition?: number) => Promise<void>;
   refresh: () => Promise<void>;
 };
 
-const SETTINGS_KEY = "sheetNavigator.pinnedIds";
+const SETTINGS_KEY_PINNED = "sheetNavigator.pinnedIds";
+const SETTINGS_KEY_COLLAPSED = "sheetNavigator.collapsedFolders";
 
-function readPinned(): string[] {
-  const raw = Office.context.document.settings.get(SETTINGS_KEY);
+function readStringArray(key: string): string[] {
+  const raw = Office.context.document.settings.get(key);
   if (!raw) {
     return [];
   }
@@ -41,8 +45,8 @@ function readPinned(): string[] {
   }
 }
 
-async function writePinned(pinned: string[]): Promise<void> {
-  Office.context.document.settings.set(SETTINGS_KEY, JSON.stringify(pinned));
+async function writeStringArray(key: string, values: string[]): Promise<void> {
+  Office.context.document.settings.set(key, JSON.stringify(values));
   await new Promise<void>((resolve, reject) => {
     Office.context.document.settings.saveAsync((res) => {
       if (res.status === Office.AsyncResultStatus.Succeeded) {
@@ -58,7 +62,9 @@ export function useWorksheets(): UseWorksheetsResult {
   const [sheets, setSheets] = useState<SheetInfo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [collapsedFolders, setCollapsedFolders] = useState<Set<string>>(new Set());
   const pinnedRef = useRef<Set<string>>(new Set());
+  const collapsedRef = useRef<Set<string>>(new Set());
 
   const fetchSheets = useCallback(async () => {
     setError(null);
@@ -97,7 +103,9 @@ export function useWorksheets(): UseWorksheetsResult {
     const handlers: Array<{ remove: () => void }> = [];
 
     (async () => {
-      pinnedRef.current = new Set(readPinned());
+      pinnedRef.current = new Set(readStringArray(SETTINGS_KEY_PINNED));
+      collapsedRef.current = new Set(readStringArray(SETTINGS_KEY_COLLAPSED));
+      setCollapsedFolders(new Set(collapsedRef.current));
 
       try {
         await Excel.run(async (context) => {
@@ -196,8 +204,55 @@ export function useWorksheets(): UseWorksheetsResult {
     }
     pinnedRef.current = next;
     setSheets((prev) => prev.map((s) => (s.id === id ? { ...s, isPinned: next.has(id) } : s)));
-    await writePinned(Array.from(next));
+    await writeStringArray(SETTINGS_KEY_PINNED, Array.from(next));
   }, []);
 
-  return { sheets, loading, error, activate, rename, reorder, toggleHidden, pin, refresh: fetchSheets };
+  const toggleFolder = useCallback((path: string) => {
+    const next = new Set(collapsedRef.current);
+    if (next.has(path)) {
+      next.delete(path);
+    } else {
+      next.add(path);
+    }
+    collapsedRef.current = next;
+    setCollapsedFolders(new Set(next));
+    // Persistance asynchrone, on n'attend pas le retour (l'UI reagit deja).
+    void writeStringArray(SETTINGS_KEY_COLLAPSED, Array.from(next));
+  }, []);
+
+  const moveSheet = useCallback(
+    async (id: string, targetFolder: string | null, targetPosition?: number) => {
+      await Excel.run(async (context) => {
+        const ws = context.workbook.worksheets.getItem(id);
+        ws.load("name");
+        await context.sync();
+
+        const currentLeaf = ws.name.split("/").pop() || ws.name;
+        const newName = targetFolder ? `${targetFolder}/${currentLeaf}` : currentLeaf;
+        if (newName !== ws.name) {
+          ws.name = newName;
+        }
+        if (typeof targetPosition === "number") {
+          ws.position = targetPosition;
+        }
+        await context.sync();
+      });
+    },
+    []
+  );
+
+  return {
+    sheets,
+    loading,
+    error,
+    collapsedFolders,
+    activate,
+    rename,
+    reorder,
+    toggleHidden,
+    pin,
+    toggleFolder,
+    moveSheet,
+    refresh: fetchSheets,
+  };
 }
