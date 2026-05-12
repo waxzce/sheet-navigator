@@ -1,100 +1,104 @@
 # Sheet Navigator
 
-Add-in Office cross-platform (macOS, Windows, Web) qui ajoute à Excel un **volet latéral** listant verticalement toutes les feuilles du classeur actif. À la manière de Kutools, mais bâti avec la plateforme moderne Office.js, hébergé sur **Clever Cloud Static** et déployé via **GitHub Actions**.
+> A side panel for Excel that lists every sheet in your workbook. Open source, cross-platform, no account needed.
+>
+> Live demo & install: **[sheet-navigator.waxzce.org](https://sheet-navigator.waxzce.org/)** · 🇫🇷 [README en français](README.fr.md)
 
-## Fonctionnalités
+Cross-platform Office Add-in (Mac, Windows, Web) that adds a side panel to Excel listing all the sheets in the active workbook. Inspired by what Kutools does for sheet navigation, built on the modern Office.js platform, hosted on **Clever Cloud Static** and deployed via **GitHub Actions**.
 
-- Liste compacte (32–36 px par ligne) des feuilles dans l'ordre du classeur
-- Pastille colorée à gauche (`tabColor`), nom au centre, icônes d'action à droite
-- Clic sur une ligne → active la feuille et sélectionne `A1`
-- Recherche en haut, insensible aux accents et à la casse
-- Toolbar : afficher/masquer les feuilles cachées · tri par classeur ou alpha · rafraîchir
-- Bascule visible/masqué via l'icône œil
-- Épinglage des feuilles fréquentes (icône punaise au survol), persisté **par classeur** dans `Office.context.document.settings`
-- Glisser-déposer pour réordonner
-- Synchronisation temps réel sur `onAdded`, `onDeleted`, `onActivated`, `onNameChanged`
+## Features
+
+- Compact list of all sheets, click to activate (selects `A1`)
+- Colored dot on the left (`tabColor`), name in the middle, action icons on hover
+- **Folder hierarchy via `/`** in sheet names: `Region/France` and `Region/Germany` appear as children of an expandable "Region" folder. Unlimited depth. Drag between folders renames automatically. Collapse state persisted per workbook.
+- Accent-insensitive, case-insensitive search
+- Toolbar: show/hide hidden sheets, sort by workbook or alpha, refresh
+- Toggle individual sheet visibility via the eye icon
+- Pin frequent sheets (pin icon on hover), persisted **per workbook** via `Office.context.document.settings`
+- Drag-and-drop reorder
+- Real-time sync via `onAdded`, `onDeleted`, `onActivated`, `onNameChanged` Office.js events
 
 ## Stack
 
-- **Office.js** (manifest XML classique — pas le JSON unifié)
+- **Office.js** (classic XML manifest, not the unified JSON)
 - **TypeScript** strict
 - **React 18** + **Fluent UI v9** (`@fluentui/react-components`)
-- **Webpack 5** (HTTPS sur :3000 en dev)
-- **Clever Cloud Static** (static-apache) avec build côté plateforme via `CC_PRE_BUILD_HOOK`
+- **Webpack 5** (HTTPS dev server on `:3000`)
+- **Clever Cloud Static** (static-apache) with platform-side build via `CC_PRE_BUILD_HOOK`
 
-## Pré-requis
+## Prerequisites
 
-- macOS, Node.js LTS (≥ 20) — `brew install node` ou `nvm install --lts`
-- Excel pour Mac récent (Microsoft 365)
-- [`clever-tools`](https://www.clever-cloud.com/doc/clever-tools/getting_started/) pour le déploiement : `npm install -g clever-tools && clever login`
+- macOS or Windows, Node.js LTS (≥ 20) — `brew install node` or `nvm install --lts`
+- Recent Excel (Microsoft 365)
+- [`clever-tools`](https://www.clever-cloud.com/doc/clever-tools/getting_started/) for deployment: `npm install -g clever-tools && clever login`
 
-## Démarrage rapide
+## Quick start
 
 ```bash
 npm install
-npm run dev              # webpack-dev-server HTTPS sur :3000
-npm run sideload:mac     # installe manifest.local.xml dans le dossier wef d'Excel
+npm run dev              # webpack-dev-server HTTPS on :3000
+npm run sideload:mac     # installs manifest.local.xml in Excel's wef folder
 ```
 
-À la première exécution de `npm run dev`, le template Office installe un **certificat HTTPS local** dans ton trousseau (mot de passe demandé) — obligatoire, Office refuse HTTP sauf `localhost`.
+On first `npm run dev`, the Office template installs a **local HTTPS certificate** into your keychain (asks for your password) — required, because Office refuses HTTP except for `localhost`.
 
-Ensuite :
-1. Quitte complètement Excel (`Cmd+Q`)
-2. Rouvre un classeur
-3. **Insertion → Compléments → Mes compléments → Developer Add-ins → Sheet Navigator**
-4. Le bouton « Navigateur de feuilles » apparaît dans l'onglet **Accueil**
+Then:
+1. Fully quit Excel (`Cmd+Q` on Mac, close all windows on Windows)
+2. Open a workbook
+3. **Insert → Add-ins → My Add-ins → Developer Add-ins → Sheet Navigator**
+4. The "Sheet Navigator" button appears in the **Home** ribbon tab
 
-Pour ouvrir les **devtools Safari** : clic droit dans le panneau → *Inspect Element*.
+To open **Safari devtools** on Mac: right-click in the panel → *Inspect Element*.
 
-## Scripts npm
+## npm scripts
 
 | Script | Action |
 | --- | --- |
-| `npm run dev` | Lance webpack-dev-server HTTPS sur `:3000`, hot reload |
-| `npm run build` | Build de production dans `dist/`, bundles hashés |
-| `npm run sideload:mac` | Copie `manifests/manifest.local.xml` dans le dossier wef |
-| `npm run sideload:mac -- --prod` | Idem mais avec `manifest.prod.xml` (URL prod) |
-| `npm run sideload:mac:clean` | Supprime tout manifest Sheet Navigator du dossier wef |
-| `npm run deploy` | Déploie sur Clever Static (`clever deploy --force`) |
-| `npm run validate` | Valide le manifest local |
+| `npm run dev` | Start webpack-dev-server HTTPS on `:3000`, hot reload |
+| `npm run build` | Production build into `dist/`, hashed bundles |
+| `npm run sideload:mac` | Copy `manifests/manifest.local.xml` into the wef folder |
+| `npm run sideload:mac -- --prod` | Same but with `manifest.prod.xml` (prod URL) |
+| `npm run sideload:mac:clean` | Remove every Sheet Navigator manifest from wef |
+| `npm run deploy` | Deploy to Clever Static (`clever deploy --force`) |
+| `npm run validate` | Validate the local manifest |
 
-## Hébergement Clever Static
+## Hosting on Clever Static
 
-L'app Clever Cloud est une **static-apache** configurée pour builder le projet côté plateforme.
+The Clever Cloud app is a **static-apache** configured to build the project on the platform side.
 
-Env vars de l'app :
+App env vars:
 
-| Variable | Valeur |
+| Variable | Value |
 | --- | --- |
 | `CC_PRE_BUILD_HOOK` | `npm ci && npm run build` |
 | `CC_WEBROOT` | `/dist` |
 | `CC_COMPOSER_VERSION` | `2` |
 
-Le domaine custom `sheet-navigator.waxzce.org` est attaché à l'app, avec cert Let's Encrypt auto-provisionné par Clever Cloud. Le fichier `.clever.json` (versionné) référence l'`app_id`, donc `clever deploy` fonctionne sans `clever link` préalable.
+The custom domain `sheet-navigator.waxzce.org` is attached to the app, with a Let's Encrypt cert auto-provisioned by Clever Cloud. The versioned `.clever.json` file references the `app_id`, so `clever deploy` works without prior `clever link`.
 
-## Déploiement local
+## Local deploy
 
 ```bash
-clever login            # une fois
+clever login            # once
 npm run deploy          # clever deploy --force
 ```
 
-URL de prod : `https://sheet-navigator.waxzce.org/`
+Production URL: `https://sheet-navigator.waxzce.org/`
 
-## Déploiement GitHub Actions
+## GitHub Actions deploy
 
-Le workflow `.github/workflows/deploy-clever.yml` se déclenche sur `push` vers `main` ou en `workflow_dispatch`.
+The workflow `.github/workflows/deploy-clever.yml` runs on `push` to `main` or via `workflow_dispatch`.
 
-Deux secrets à configurer dans **Settings → Secrets and variables → Actions** :
+Two secrets to configure in **Settings → Secrets and variables → Actions**:
 
-| Secret | Comment l'obtenir |
+| Secret | How to get it |
 | --- | --- |
-| `CLEVER_TOKEN` | `cat ~/.config/clever-cloud/clever-tools.json` après un `clever login` local, champ `token` |
-| `CLEVER_SECRET` | Idem, champ `secret` |
+| `CLEVER_TOKEN` | `cat ~/.config/clever-cloud/clever-tools.json` after a local `clever login`, `token` field |
+| `CLEVER_SECRET` | Same file, `secret` field |
 
-## Distribution aux collègues
+## Distribute to teammates
 
-Page d'accueil pour les collègues : **https://sheet-navigator.waxzce.org/** (auto-détection Mac/Windows + instructions pas-à-pas).
+Landing page: **https://sheet-navigator.waxzce.org/** with auto OS-detection + step-by-step install.
 
 ### Mac
 
@@ -103,37 +107,42 @@ curl -o ~/Library/Containers/com.microsoft.Excel/Data/Documents/wef/sheet-naviga
   https://sheet-navigator.waxzce.org/manifest.xml
 ```
 
-Puis relance Excel et va dans **Insertion → Compléments → Mes compléments → Developer Add-ins**.
+Then restart Excel and go to **Insert → Add-ins → My Add-ins → Developer Add-ins**.
 
 ### Windows
 
-Le plus simple : aller sur https://sheet-navigator.waxzce.org/, télécharger `manifest.xml`, puis dans Excel **Insertion → Mes compléments → Charger mon complément** et sélectionner le fichier téléchargé.
+Easiest: visit https://sheet-navigator.waxzce.org/, download `manifest.xml`, then in Excel **Insert → My Add-ins → Upload My Add-in** and pick the downloaded file.
 
-Alternative pour multi-utilisateurs : poser `manifest.xml` sur un partage SMB ou OneDrive synchronisé, puis Excel → Fichier → Options → Centre de gestion de la confidentialité → Paramètres → **Catalogues de compléments approuvés** → colle l'URL UNC → coche *Afficher dans le menu* → relance Excel.
+Multi-user alternative: drop `manifest.xml` on a SMB share or synced OneDrive, then in Excel → File → Options → Trust Center → Settings → **Trusted Add-in Catalogs** → paste the UNC URL → check *Show in menu* → restart Excel.
 
-### Centralized Deployment Microsoft 365
+### Microsoft 365 Centralized Deployment
 
-Si Clever Cloud a un tenant M365 secondaire, un admin peut pousser le manifest depuis le **M365 admin center → Integrated apps → Upload custom apps**. L'add-in apparaît alors automatiquement dans l'Excel de tous les collègues ciblés, sans aucun sideload manuel.
+If your org has an M365 admin tenant, an admin can push the manifest from **M365 admin center → Integrated apps → Upload custom apps**. The add-in then appears automatically in every targeted user's Excel — no manual sideload.
 
-## Architecture du code
+## Code structure
 
 ```
 src/
   taskpane/
-    index.tsx              # Bootstrap React + FluentProvider
-    App.tsx                # Composant racine, recherche + tri
+    index.tsx              # React + FluentProvider bootstrap
+    App.tsx                # Root component, search + sort
     taskpane.html
     taskpane.css
     hooks/
-      useWorksheets.ts     # Office.js encapsule : load + events + actions + epinglage
+      useWorksheets.ts     # Office.js wrapper: load + events + actions + pinning + folders
     components/
       SearchBar.tsx
       Toolbar.tsx
-      SheetList.tsx
+      SheetList.tsx        # Recursive tree rendering, drag-and-drop with rename
       SheetRow.tsx
+      FolderRow.tsx        # Folder header with disclosure triangle
+    utils/
+      tree.ts              # Pure tree builder from "/"-delimited sheet names
   commands/
-    commands.ts            # Function file referencee par le manifest (vide)
+    commands.ts            # Function file referenced by the manifest (empty)
     commands.html
+  index.html               # Marketing landing page (served at /)
+  install.html             # Install instructions (Mac + Windows)
 manifests/
   manifest.local.xml       # SourceLocation = https://localhost:3000/
   manifest.prod.xml        # SourceLocation = https://sheet-navigator.waxzce.org/
@@ -143,14 +152,24 @@ scripts/
   deploy-clever.yml
 ```
 
-## Pièges connus
+## Gotchas
 
-- **HTTPS obligatoire** : Office refuse HTTP sauf `localhost`. Clever Static + cert LE servent en HTTPS natif.
-- **Cert wildcard refusé par Office Windows** : c'est pour ça qu'on est sur un domaine custom `sheet-navigator.waxzce.org` (cert dédié Let's Encrypt) plutôt que sur le wildcard `*.cleverapps.io` ou `*.cellar-c2.services.clever-cloud.com`.
-- **Cache Office tenace sur Mac** : si une modification du manifest n'est pas prise en compte, fais `npm run sideload:mac:clean`, puis vide le cache Office : `rm -rf ~/Library/Containers/com.Microsoft.OsfWebHost/Data/*`, et relance Excel.
-- **Le panneau est toujours à droite** : Microsoft impose une largeur minimum (~320 px) et n'autorise pas le dock à gauche.
-- **Pas de manifest unifié JSON** : le format est en preview sur Mac, on reste sur XML. Migration possible en une commande plus tard : `npx office-addin-project convert`.
+- **HTTPS required**: Office refuses HTTP except for `localhost`. Clever Static + LE cert handles this natively.
+- **Wildcard cert rejected by Office on Windows**: this is why we're on a custom domain `sheet-navigator.waxzce.org` (dedicated Let's Encrypt cert) rather than the wildcard `*.cleverapps.io` or `*.cellar-c2.services.clever-cloud.com`. Windows' Office stack does TLS pinning strictness that the Mac/Web clients don't.
+- **Stubborn Office cache on Mac**: if a manifest change isn't picked up, run `npm run sideload:mac:clean`, then wipe the Office cache: `rm -rf ~/Library/Containers/com.Microsoft.OsfWebHost/Data/*`, then restart Excel.
+- **Panel is always on the right**: Microsoft enforces a minimum width (~320 px) and doesn't allow docking on the left.
+- **No unified JSON manifest yet**: the format is in preview on Mac, we stay on XML. Migration possible later via `npx office-addin-project convert`.
 
-## Licence
+## Contributing
 
-MIT
+PRs welcome. The codebase is small (a handful of files) and the tree builder is pure — easy to extend.
+
+If you want to add a feature:
+1. Open an issue first describing the use case
+2. Fork and branch
+3. Run `npm run dev` for the live HTTPS panel + `npm run sideload:mac` to wire it into your Excel
+4. Submit a PR
+
+## License
+
+MIT — see [LICENSE](LICENSE).
