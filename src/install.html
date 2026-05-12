@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Installer Sheet Navigator</title>
+    <style>
+      :root {
+        --bg: #fafbfc;
+        --card: #ffffff;
+        --fg: #1f2328;
+        --muted: #57606a;
+        --primary: #0969da;
+        --border: #d0d7de;
+        --code-bg: #0d1117;
+        --code-fg: #f0f6fc;
+      }
+      * { box-sizing: border-box; }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: var(--bg);
+        color: var(--fg);
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 40px 24px 80px;
+        line-height: 1.55;
+      }
+      h1 { font-size: 32px; margin: 0 0 8px; letter-spacing: -0.02em; }
+      .tagline { color: var(--muted); margin: 0 0 32px; font-size: 16px; }
+      .tabs { display: flex; gap: 4px; margin-bottom: 0; border-bottom: 1px solid var(--border); }
+      .tab {
+        padding: 10px 18px;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-bottom: none;
+        border-radius: 8px 8px 0 0;
+        font-weight: 500;
+        color: var(--muted);
+        background: transparent;
+      }
+      .tab.active {
+        background: var(--card);
+        border-color: var(--border);
+        color: var(--fg);
+        font-weight: 600;
+        margin-bottom: -1px;
+      }
+      .section {
+        display: none;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 0 12px 12px 12px;
+        padding: 28px;
+      }
+      .section.active { display: block; }
+      .step { display: flex; gap: 14px; margin: 0 0 22px; align-items: flex-start; }
+      .step:last-child { margin-bottom: 0; }
+      .num {
+        flex: 0 0 28px;
+        width: 28px; height: 28px;
+        border-radius: 50%;
+        background: var(--primary);
+        color: #fff;
+        text-align: center;
+        line-height: 28px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .step-body { flex: 1; min-width: 0; }
+      .step-body strong { font-weight: 600; }
+      a.dl-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--primary);
+        color: #fff;
+        padding: 10px 18px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        margin-top: 8px;
+      }
+      a.dl-btn:hover { background: #0860c7; }
+      pre {
+        background: var(--code-bg);
+        color: var(--code-fg);
+        padding: 14px 16px;
+        border-radius: 8px;
+        overflow-x: auto;
+        font-size: 12.5px;
+        margin: 8px 0 0;
+        position: relative;
+      }
+      pre code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; white-space: pre-wrap; word-break: break-all; }
+      button.copy {
+        position: absolute;
+        top: 8px; right: 8px;
+        background: #21262d;
+        color: #c9d1d9;
+        border: 1px solid #30363d;
+        border-radius: 4px;
+        padding: 4px 10px;
+        cursor: pointer;
+        font-size: 12px;
+      }
+      button.copy:hover { background: #30363d; }
+      kbd {
+        background: #f6f8fa;
+        border: 1px solid var(--border);
+        border-bottom-width: 2px;
+        border-radius: 4px;
+        padding: 1px 6px;
+        font-family: ui-monospace, Menlo, Consolas, monospace;
+        font-size: 12px;
+      }
+      .hint {
+        background: #fff8c5;
+        border-left: 3px solid #d4a72c;
+        padding: 12px 14px;
+        border-radius: 4px;
+        font-size: 14px;
+        margin-top: 14px;
+        color: #57606a;
+      }
+      footer {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 13px;
+        text-align: center;
+      }
+      footer a { color: var(--muted); }
+    </style>
+  </head>
+  <body>
+    <h1>Sheet Navigator</h1>
+    <p class="tagline">Volet lateral de navigation entre les feuilles d'un classeur Excel. Cible Excel sur Mac, Windows et le Web.</p>
+
+    <div class="tabs">
+      <div class="tab" data-os="win">Windows</div>
+      <div class="tab" data-os="mac">macOS</div>
+    </div>
+
+    <section class="section" id="win">
+      <div class="step">
+        <div class="num">1</div>
+        <div class="step-body">
+          Telecharge le fichier manifest.
+          <br />
+          <a class="dl-btn" href="manifest.xml" download="sheet-navigator.manifest.xml">Telecharger manifest.xml</a>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div class="step-body">
+          Ouvre Excel. Dans le ruban <strong>Insertion</strong>, clique sur <strong>Mes complements</strong> (ou <em>My Add-ins</em>).
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div class="step-body">
+          Dans la fenetre qui s'ouvre, en haut a droite, clique sur <strong>Charger mon complement</strong> (ou <em>Upload My Add-in</em>).
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <div class="step-body">
+          Selectionne le fichier <code>sheet-navigator.manifest.xml</code> telecharge a l'etape 1, puis clique <strong>Charger</strong>.
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">5</div>
+        <div class="step-body">
+          Le bouton <strong>Navigateur de feuilles</strong> apparait dans le ruban onglet <strong>Accueil</strong>. Clique dessus pour ouvrir le volet.
+        </div>
+      </div>
+      <div class="hint">
+        Le complement reste installe tant que tu ne le retires pas via le m&ecirc;me menu <em>Mes complements</em>.
+      </div>
+    </section>
+
+    <section class="section" id="mac">
+      <div class="step">
+        <div class="num">1</div>
+        <div class="step-body">
+          <strong>Quitte Excel completement</strong> avec <kbd>Cmd</kbd>+<kbd>Q</kbd>.
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div class="step-body">
+          Ouvre l'application <strong>Terminal</strong> et colle cette commande&nbsp;:
+          <pre><button class="copy" data-target="mac-cmd">Copier</button><code id="mac-cmd">mkdir -p ~/Library/Containers/com.microsoft.Excel/Data/Documents/wef &amp;&amp; curl -fsSL https://sheet-navigator.cellar-c2.services.clever-cloud.com/manifest.xml -o ~/Library/Containers/com.microsoft.Excel/Data/Documents/wef/sheet-navigator.manifest.xml &amp;&amp; echo "Sheet Navigator installe. Rouvre Excel."</code></pre>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div class="step-body">
+          Rouvre Excel et un classeur. Menu <strong>Insertion &rsaquo; Complements &rsaquo; Mes complements &rsaquo; Developer Add-ins</strong>, clique sur <strong>Sheet Navigator</strong>.
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <div class="step-body">
+          Le bouton <strong>Navigateur de feuilles</strong> apparait dans le ruban onglet <strong>Accueil</strong>.
+        </div>
+      </div>
+      <div class="hint">
+        Pour desinstaller&nbsp;: <code>rm ~/Library/Containers/com.microsoft.Excel/Data/Documents/wef/sheet-navigator.manifest.xml</code> puis relance Excel.
+      </div>
+    </section>
+
+    <footer>
+      Heberge sur <a href="https://www.clever-cloud.com/" target="_blank" rel="noopener">Clever Cloud Cellar</a>. Probleme ou suggestion&nbsp;? Ecris a <a href="mailto:quentin.adam@clever-cloud.com">quentin.adam@clever-cloud.com</a>.
+    </footer>
+
+    <script>
+      const tabs = document.querySelectorAll(".tab");
+      const sections = document.querySelectorAll(".section");
+      function show(os) {
+        tabs.forEach((t) => t.classList.toggle("active", t.dataset.os === os));
+        sections.forEach((s) => s.classList.toggle("active", s.id === os));
+      }
+      tabs.forEach((t) => t.addEventListener("click", () => show(t.dataset.os)));
+      const ua = navigator.userAgent;
+      show(/Mac|iPhone|iPad/.test(ua) && !/Win/.test(ua) ? "mac" : "win");
+      document.querySelectorAll(".copy").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const text = document.getElementById(btn.dataset.target).innerText;
+          navigator.clipboard.writeText(text).then(() => {
+            const old = btn.innerText;
+            btn.innerText = "Copie !";
+            setTimeout(() => (btn.innerText = old), 1500);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
