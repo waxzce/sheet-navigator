@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Sheet Navigator — Volet de navigation pour Excel</title>
-    <meta name="description" content="Add-in Excel open source qui ajoute un volet lateral pour naviguer entre les feuilles d'un classeur. Cross-platform Mac, Windows, Web." />
+    <title>Sheet Navigator — A side panel to navigate sheets in Excel</title>
+    <meta name="description" content="Open-source Excel add-in that adds a side panel to navigate, search, pin, and reorder sheets in a workbook. Cross-platform: Mac, Windows, Web." />
     <style>
       :root {
         --bg: #fafbfc;
@@ -222,6 +222,17 @@
       }
       .hidden-row { color: var(--muted); font-style: italic; }
       .hidden-row .tab-color { opacity: 0.35; }
+      .folder-row {
+        display: flex; align-items: center; gap: 6px;
+        padding: 4px 12px;
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .folder-row .triangle {
+        width: 12px; display: inline-block;
+        color: var(--muted); font-size: 9px;
+      }
 
       /* Features */
       .features {
@@ -339,9 +350,9 @@
           <span>Sheet Navigator</span>
         </div>
         <div class="nav-links">
-          <a href="#fonctionnalites">Fonctionnalités</a>
-          <a href="#compatibilite">Compatibilité</a>
-          <a href="install.html">Installer</a>
+          <a href="#features">Features</a>
+          <a href="#platforms">Platforms</a>
+          <a href="install.html">Install</a>
           <a href="https://github.com/waxzce/sheet-navigator" target="_blank" rel="noopener">GitHub</a>
         </div>
       </div>
@@ -350,19 +361,19 @@
     <section class="hero">
       <div class="wrap">
         <div>
-          <span class="eyebrow">Add-in Excel · Open source · MIT</span>
-          <h1>Navigue entre tes feuilles Excel comme dans un explorateur de fichiers.</h1>
+          <span class="eyebrow">Excel add-in · Open source · MIT</span>
+          <h1>Navigate Excel sheets like files in a sidebar.</h1>
           <p class="lead">
-            Sheet Navigator ajoute à Excel un volet latéral qui liste toutes les feuilles d'un classeur. Cliquable, recherchable, épinglable. Bâti sur Office.js, fonctionne sur Mac, Windows et Excel Web.
+            Sheet Navigator adds a side panel to Excel that lists every sheet in your workbook. Clickable, searchable, pinnable, with folder grouping via the <code>/</code> character. Built on Office.js, works on Mac, Windows and Excel for the Web.
           </p>
           <div class="cta-row">
-            <a class="btn btn-primary" href="install.html">Installer en 2 minutes →</a>
-            <a class="btn btn-secondary" href="https://github.com/waxzce/sheet-navigator" target="_blank" rel="noopener">Code source</a>
+            <a class="btn btn-primary" href="install.html">Install in 2 minutes →</a>
+            <a class="btn btn-secondary" href="https://github.com/waxzce/sheet-navigator" target="_blank" rel="noopener">Source code</a>
           </div>
           <div class="meta-row">
             <span><span class="dot"></span> Mac · Windows · Web</span>
-            <span><span class="dot"></span> Gratuit, sans compte</span>
-            <span><span class="dot"></span> Aucune donnée envoyée</span>
+            <span><span class="dot"></span> Free, no account required</span>
+            <span><span class="dot"></span> No data sent anywhere</span>
           </div>
         </div>
 
@@ -374,56 +385,58 @@
           <div class="mockup-body">
             <div class="excel-grid">
               <div class="excel-header">
-                <span>Accueil · Insertion · Mise en page · Formules</span>
+                <span>Home · Insert · Page Layout · Formulas</span>
                 <span>Sheet Navigator</span>
               </div>
               <div class="excel-tabs">
-                <span class="excel-tab">Résumé</span>
-                <span class="excel-tab active">Q1</span>
-                <span class="excel-tab">Q2</span>
-                <span class="excel-tab">Q3</span>
+                <span class="excel-tab">Summary</span>
+                <span class="excel-tab active">Q1 / France</span>
+                <span class="excel-tab">Q1 / Germany</span>
+                <span class="excel-tab">Q2 / France</span>
                 <span class="excel-tab">…</span>
               </div>
             </div>
             <div class="pane">
               <div class="pane-search">
                 <span style="color: var(--muted);">⌕</span>
-                <input value="q" readonly />
+                <input value="" placeholder="Search…" readonly />
               </div>
               <div class="pane-toolbar">
-                <span class="tool on">Classeur</span>
+                <span class="tool on">Workbook</span>
                 <span class="tool">A→Z</span>
-                <span class="tool">Cachées</span>
+                <span class="tool">Hidden</span>
               </div>
               <div class="pane-list">
                 <div class="sheet-row">
                   <span class="tab-color" style="background:#0969da"></span>
-                  <span>Résumé</span>
+                  <span>Summary</span>
                   <span class="pin-icon">★</span>
                 </div>
-                <div class="sheet-row active">
+                <div class="folder-row"><span class="triangle">▼</span> Q1</div>
+                <div class="sheet-row active" style="padding-left: 32px;">
                   <span class="tab-color" style="background:#1f883d"></span>
-                  <span>Q1 - France</span>
+                  <span>France</span>
                 </div>
-                <div class="sheet-row">
+                <div class="sheet-row" style="padding-left: 32px;">
                   <span class="tab-color" style="background:#1f883d"></span>
-                  <span>Q1 - Allemagne</span>
+                  <span>Germany</span>
                 </div>
-                <div class="sheet-row">
+                <div class="folder-row"><span class="triangle">▼</span> Q2</div>
+                <div class="sheet-row" style="padding-left: 32px;">
                   <span class="tab-color" style="background:#bf3989"></span>
-                  <span>Q2 - France</span>
+                  <span>France</span>
                 </div>
-                <div class="sheet-row">
+                <div class="sheet-row" style="padding-left: 32px;">
                   <span class="tab-color" style="background:#bf3989"></span>
-                  <span>Q2 - Allemagne</span>
+                  <span>Germany</span>
                 </div>
                 <div class="sheet-row hidden-row">
                   <span class="tab-color" style="background:#8250df"></span>
-                  <span>Notes internes</span>
+                  <span>Internal notes</span>
                 </div>
                 <div class="sheet-row">
                   <span class="tab-color" style="background:#bc4c00"></span>
-                  <span>Hypothèses</span>
+                  <span>Assumptions</span>
                 </div>
               </div>
             </div>
@@ -432,61 +445,61 @@
       </div>
     </section>
 
-    <section class="features" id="fonctionnalites">
+    <section class="features" id="features">
       <div class="wrap">
-        <h2 class="section-title">Tout ce qu'il manque à Excel pour les gros classeurs</h2>
-        <p class="section-sub">Sheet Navigator reprend les fonctions essentielles d'outils comme Kutools, sans la barre d'outils chargée et sans licence à renouveler.</p>
+        <h2 class="section-title">Everything Excel is missing for big workbooks</h2>
+        <p class="section-sub">Sheet Navigator covers what tools like Kutools do for sheet management — without the toolbar bloat and without a paid license.</p>
         <div class="grid">
           <div class="feat">
-            <h3><span class="feat-ico">⌕</span> Recherche insensible aux accents</h3>
-            <p>Tape "resume" pour trouver "Résumé". Tape "cle 24" pour trouver "Clé 2024". Filtre instantanément ta liste de feuilles, même sur 200+ entrées.</p>
+            <h3><span class="feat-ico">⌕</span> Accent-insensitive search</h3>
+            <p>Type "resume" to find "Résumé". Type "key 24" to find "Key 2024". Filter your sheet list instantly, even with 200+ entries.</p>
           </div>
           <div class="feat">
-            <h3><span class="feat-ico">★</span> Épinglage par classeur</h3>
-            <p>Punaise les feuilles que tu utilises en permanence. L'état est sauvegardé dans le classeur, donc tu retrouves tes épingles à la prochaine ouverture, même partagé avec un collègue.</p>
+            <h3><span class="feat-ico">★</span> Per-workbook pinning</h3>
+            <p>Pin the sheets you visit constantly. Pins are stored inside the workbook itself, so they survive close/open cycles and follow the file when shared with a colleague.</p>
           </div>
           <div class="feat">
-            <h3><span class="feat-ico">⇅</span> Glisser-déposer</h3>
-            <p>Réordonne tes feuilles depuis le volet, beaucoup plus pratique que les onglets en bas, surtout quand il y en a trente et qu'il faut scroller horizontalement.</p>
+            <h3><span class="feat-ico">▦</span> Folder hierarchy via <code>/</code></h3>
+            <p>Name a sheet <code>Region/France</code> and it appears as a child of an expandable "Region" folder. Drag between folders to rename automatically. Persisted collapse state per workbook.</p>
           </div>
           <div class="feat">
-            <h3><span class="feat-ico">⊘</span> Feuilles cachées au choix</h3>
-            <p>Affiche ou masque les feuilles cachées en un clic. Toggle visible/masqué par l'icône œil. Idéal pour les classeurs avec beaucoup de feuilles de calcul intermédiaires.</p>
+            <h3><span class="feat-ico">⇅</span> Drag-and-drop reorder</h3>
+            <p>Reorder sheets from the side panel. Much faster than the bottom tabs, especially when there are thirty sheets and you have to scroll horizontally.</p>
           </div>
           <div class="feat">
-            <h3><span class="feat-ico">⟲</span> Synchronisation temps réel</h3>
-            <p>La liste se met à jour automatiquement quand tu ajoutes, supprimes, renommes ou actives une feuille. Pas besoin de rafraîchir manuellement.</p>
+            <h3><span class="feat-ico">⊘</span> Hidden sheets, your call</h3>
+            <p>Show or hide the hidden sheets in one click. Toggle visibility per-sheet via the eye icon. Useful for workbooks with lots of intermediate calculation sheets.</p>
           </div>
           <div class="feat">
-            <h3><span class="feat-ico">▢</span> Pastilles de couleur</h3>
-            <p>Si tu colores tes onglets dans Excel, la couleur apparaît dans le volet. Pratique pour identifier d'un coup d'œil les catégories de feuilles.</p>
+            <h3><span class="feat-ico">⟲</span> Real-time sync</h3>
+            <p>The list updates automatically as you add, delete, rename or activate sheets. No manual refresh, no stale state.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="compat" id="compatibilite">
+    <section class="compat" id="platforms">
       <div class="wrap">
         <div>
-          <h2 class="section-title">Cross-platform, sans installation lourde</h2>
-          <p class="section-sub">Sheet Navigator est un Office Add-in moderne. Il tourne dans une sandbox web embarquée dans Excel, pas dans un installateur système.</p>
+          <h2 class="section-title">Cross-platform, no heavy install</h2>
+          <p class="section-sub">Sheet Navigator is a modern Office Add-in. It runs in a web sandbox embedded in Excel — no system installer, no admin privileges.</p>
           <div class="platforms">
             <span class="pill"><span class="check">✓</span>Excel Mac</span>
             <span class="pill"><span class="check">✓</span>Excel Windows</span>
-            <span class="pill"><span class="check">✓</span>Excel Web</span>
+            <span class="pill"><span class="check">✓</span>Excel for the Web</span>
             <span class="pill"><span class="check">✓</span>Excel iPad</span>
           </div>
           <p style="margin-top: 22px; color: var(--muted); font-size: 14px;">
-            Aucun script VBA, aucun .xlam, aucun macro à débloquer. Le volet apparaît dans le ruban Accueil dès l'installation du manifest.
+            No VBA script, no .xlam, no macro to unblock. The panel appears in the Home ribbon as soon as the manifest is installed.
           </p>
         </div>
         <div>
           <div class="feat" style="background: linear-gradient(135deg, #f6f8fa, #fff);">
-            <h3 style="font-size: 18px; margin-bottom: 12px;">Stack technique</h3>
+            <h3 style="font-size: 18px; margin-bottom: 12px;">Tech stack</h3>
             <p style="font-size: 13.5px;">
-              TypeScript strict · React 18 · Fluent UI v9 · Webpack 5 · Office.js<br />
-              Hébergé sur Clever Cloud Static · Cert Let's Encrypt sur domaine custom<br />
-              CI auto-deploy via GitHub Actions
+              Strict TypeScript · React 18 · Fluent UI v9 · Webpack 5 · Office.js<br />
+              Hosted on Clever Cloud Static · Let's Encrypt cert on a dedicated domain<br />
+              Auto-deployed via GitHub Actions
             </p>
           </div>
         </div>
@@ -495,15 +508,15 @@
 
     <section class="cta-bottom">
       <div class="wrap">
-        <h2>Installer Sheet Navigator</h2>
-        <p>Deux minutes sur Windows, trois étapes sur Mac. Aucun compte requis.</p>
-        <a class="btn btn-primary" href="install.html">Voir les instructions d'installation →</a>
+        <h2>Install Sheet Navigator</h2>
+        <p>Two minutes on Windows, three steps on Mac. No account required.</p>
+        <a class="btn btn-primary" href="install.html">See install instructions →</a>
       </div>
     </section>
 
     <footer>
       <div class="wrap">
-        <div>Sheet Navigator · MIT License · Hébergé par <a href="https://www.clever-cloud.com/" target="_blank" rel="noopener">Clever Cloud</a></div>
+        <div>Sheet Navigator · MIT License · Hosted by <a href="https://www.clever-cloud.com/" target="_blank" rel="noopener">Clever Cloud</a></div>
         <div>
           <a href="https://github.com/waxzce/sheet-navigator" target="_blank" rel="noopener">GitHub</a>
           &nbsp;·&nbsp;
