@@ -62,12 +62,14 @@ function contentTypeFor(path) {
   return CONTENT_TYPES[extname(path).toLowerCase()] ?? "application/octet-stream";
 }
 
-function cacheControlFor(path) {
-  // HTML : court (5 min) pour pouvoir iterer sans bloquer le cache navigateur.
-  // Reste : hashes dans les noms de fichier, donc immutable un an.
-  return extname(path).toLowerCase() === ".html"
-    ? "public, max-age=300"
-    : "public, max-age=31536000, immutable";
+function cacheControlFor(path, key) {
+  // HTML et manifest.xml : court (5 min) pour pouvoir iterer sans bloquer le
+  // cache navigateur. Reste : hashes dans les noms de fichier, immutable 1 an.
+  const ext = extname(path).toLowerCase();
+  if (ext === ".html" || key === "manifest.xml") {
+    return "public, max-age=300";
+  }
+  return "public, max-age=31536000, immutable";
 }
 
 async function* walk(dir) {
@@ -90,7 +92,7 @@ async function uploadOne(localPath, key) {
       Body: body,
       ACL: "public-read",
       ContentType: contentTypeFor(localPath),
-      CacheControl: cacheControlFor(localPath),
+      CacheControl: cacheControlFor(localPath, key),
     })
   );
   console.log(`  -> s3://${bucket}/${key}`);
