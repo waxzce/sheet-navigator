@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Installer Sheet Navigator</title>
+    <title>Install Sheet Navigator</title>
     <style>
       :root {
         --bg: #fafbfc;
@@ -135,7 +135,7 @@
   </head>
   <body>
     <h1>Sheet Navigator</h1>
-    <p class="tagline">Volet lateral de navigation entre les feuilles d'un classeur Excel. Cible Excel sur Mac, Windows et le Web.</p>
+    <p class="tagline">A side panel to navigate sheets in an Excel workbook. Works on Excel for Mac, Windows and the Web.</p>
 
     <div class="tabs">
       <div class="tab" data-os="win">Windows</div>
@@ -146,37 +146,37 @@
       <div class="step">
         <div class="num">1</div>
         <div class="step-body">
-          Telecharge le fichier manifest.
+          Download the manifest file.
           <br />
-          <a class="dl-btn" href="manifest.xml" download="sheet-navigator.manifest.xml">Telecharger manifest.xml</a>
+          <a class="dl-btn" href="manifest.xml" download="sheet-navigator.manifest.xml">Download manifest.xml</a>
         </div>
       </div>
       <div class="step">
         <div class="num">2</div>
         <div class="step-body">
-          Ouvre Excel. Dans le ruban <strong>Insertion</strong>, clique sur <strong>Mes complements</strong> (ou <em>My Add-ins</em>).
+          Open Excel. In the <strong>Insert</strong> ribbon, click <strong>My Add-ins</strong>.
         </div>
       </div>
       <div class="step">
         <div class="num">3</div>
         <div class="step-body">
-          Dans la fenetre qui s'ouvre, en haut a droite, clique sur <strong>Charger mon complement</strong> (ou <em>Upload My Add-in</em>).
+          In the dialog that opens, top right corner, click <strong>Upload My Add-in</strong>.
         </div>
       </div>
       <div class="step">
         <div class="num">4</div>
         <div class="step-body">
-          Selectionne le fichier <code>sheet-navigator.manifest.xml</code> telecharge a l'etape 1, puis clique <strong>Charger</strong>.
+          Pick the <code>sheet-navigator.manifest.xml</code> file you just downloaded, then click <strong>Upload</strong>.
         </div>
       </div>
       <div class="step">
         <div class="num">5</div>
         <div class="step-body">
-          Le bouton <strong>Navigateur de feuilles</strong> apparait dans le ruban onglet <strong>Accueil</strong>. Clique dessus pour ouvrir le volet.
+          The <strong>Sheet Navigator</strong> button appears in the <strong>Home</strong> ribbon tab. Click it to open the side panel.
         </div>
       </div>
       <div class="hint">
-        Le complement reste installe tant que tu ne le retires pas via le m&ecirc;me menu <em>Mes complements</em>.
+        The add-in stays installed until you remove it from the same <em>My Add-ins</em> menu.
       </div>
     </section>
 
@@ -184,35 +184,35 @@
       <div class="step">
         <div class="num">1</div>
         <div class="step-body">
-          <strong>Quitte Excel completement</strong> avec <kbd>Cmd</kbd>+<kbd>Q</kbd>.
+          <strong>Quit Excel completely</strong> with <kbd>Cmd</kbd>+<kbd>Q</kbd>.
         </div>
       </div>
       <div class="step">
         <div class="num">2</div>
         <div class="step-body">
-          Ouvre l'application <strong>Terminal</strong> et colle cette commande&nbsp;:
-          <pre><button class="copy" data-target="mac-cmd">Copier</button><code id="mac-cmd">mkdir -p ~/Library/Containers/com.microsoft.Excel/Data/Documents/wef &amp;&amp; curl -fsSL https://sheet-navigator.waxzce.org/manifest.xml -o ~/Library/Containers/com.microsoft.Excel/Data/Documents/wef/sheet-navigator.manifest.xml &amp;&amp; echo "Sheet Navigator installe. Rouvre Excel."</code></pre>
+          Open the <strong>Terminal</strong> app and paste this command:
+          <pre><button class="copy" data-target="mac-cmd">Copy</button><code id="mac-cmd">mkdir -p ~/Library/Containers/com.microsoft.Excel/Data/Documents/wef &amp;&amp; curl -fsSL https://sheet-navigator.waxzce.org/manifest.xml -o ~/Library/Containers/com.microsoft.Excel/Data/Documents/wef/sheet-navigator.manifest.xml &amp;&amp; echo "Sheet Navigator installed. Reopen Excel."</code></pre>
         </div>
       </div>
       <div class="step">
         <div class="num">3</div>
         <div class="step-body">
-          Rouvre Excel et un classeur. Menu <strong>Insertion &rsaquo; Complements &rsaquo; Mes complements &rsaquo; Developer Add-ins</strong>, clique sur <strong>Sheet Navigator</strong>.
+          Reopen Excel and a workbook. Menu <strong>Insert &rsaquo; Add-ins &rsaquo; My Add-ins &rsaquo; Developer Add-ins</strong>, click <strong>Sheet Navigator</strong>.
         </div>
       </div>
       <div class="step">
         <div class="num">4</div>
         <div class="step-body">
-          Le bouton <strong>Navigateur de feuilles</strong> apparait dans le ruban onglet <strong>Accueil</strong>.
+          The <strong>Sheet Navigator</strong> button appears in the <strong>Home</strong> ribbon tab.
         </div>
       </div>
       <div class="hint">
-        Pour desinstaller&nbsp;: <code>rm ~/Library/Containers/com.microsoft.Excel/Data/Documents/wef/sheet-navigator.manifest.xml</code> puis relance Excel.
+        To uninstall: <code>rm ~/Library/Containers/com.microsoft.Excel/Data/Documents/wef/sheet-navigator.manifest.xml</code> then reopen Excel.
       </div>
     </section>
 
     <footer>
-      <a href="/">&larr; Retour a l'accueil</a> &nbsp;&middot;&nbsp; Heberge sur <a href="https://www.clever-cloud.com/" target="_blank" rel="noopener">Clever Cloud</a>. Probleme ou suggestion&nbsp;? Ecris a <a href="mailto:quentin.adam@clever-cloud.com">quentin.adam@clever-cloud.com</a>.
+      <a href="/">&larr; Back to home</a> &nbsp;&middot;&nbsp; Hosted on <a href="https://www.clever-cloud.com/" target="_blank" rel="noopener">Clever Cloud</a>. Issue or suggestion? Email <a href="mailto:quentin.adam@clever-cloud.com">quentin.adam@clever-cloud.com</a>.
     </footer>
 
     <script>
@@ -230,7 +230,7 @@
           const text = document.getElementById(btn.dataset.target).innerText;
           navigator.clipboard.writeText(text).then(() => {
             const old = btn.innerText;
-            btn.innerText = "Copie !";
+            btn.innerText = "Copied!";
             setTimeout(() => (btn.innerText = old), 1500);
           });
         });
