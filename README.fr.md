@@ -11,7 +11,7 @@ Add-in Office cross-platform (macOS, Windows, Web) qui ajoute à Excel un **vole
 - Liste compacte (32–36 px par ligne) des feuilles dans l'ordre du classeur
 - Pastille colorée à gauche (`tabColor`), nom au centre, icônes d'action à droite
 - Clic sur une ligne → active la feuille et sélectionne `A1`
-- **Hiérarchie de dossiers via `/`** dans les noms : `Region/France` et `Region/Allemagne` apparaissent comme enfants d'un dossier pliable "Region". Profondeur illimitée. Drag entre dossiers = renommage auto. État expand/collapse persisté par classeur.
+- **Hiérarchie de dossiers via `>`** dans les noms : `Region > France` et `Region > Allemagne` apparaissent comme enfants d'un dossier pliable "Region". Profondeur illimitée. Drag entre dossiers = renommage auto. État expand/collapse persisté par classeur. (On utilise `>` parce qu'Excel interdit `/` dans les noms de feuilles — pareil pour `\ ? * [ ]`.)
 - Recherche en haut, insensible aux accents et à la casse
 - Toolbar : afficher/masquer les feuilles cachées · tri par classeur ou alpha · rafraîchir
 - Bascule visible/masqué via l'icône œil

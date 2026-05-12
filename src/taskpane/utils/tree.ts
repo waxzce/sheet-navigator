@@ -1,15 +1,23 @@
 import type { SheetInfo } from "../hooks/useWorksheets";
 
-// Decoupe un nom de feuille en segments selon le delimiteur "/". On strippe
-// les espaces et on filtre les segments vides (donc "A//B" -> ["A", "B"],
-// "/A" -> ["A"], "A/" -> ["A"]). Si tout est vide ou que le nom est tout
-// blanc, on retombe sur le nom brut comme segment unique.
+// Separateur de hierarchie. Excel interdit "/" dans les noms de feuilles
+// (cf. caracteres reserves : \ / ? * [ ]), donc on utilise ">" qui passe.
+// Les espaces autour du separateur sont tolerees au parsing, ce qui permet
+// "Region>France" comme "Region > France". La forme canonique au join
+// utilise des espaces (" > ") pour la lisibilite.
+export const SEPARATOR = ">";
+export const SEPARATOR_DISPLAY = " > ";
+const SEPARATOR_REGEX = /\s*>\s*/;
+
+// Decoupe un nom de feuille en segments. Si tous les segments sont non vides
+// apres strip, on retourne la liste ; sinon on traite le nom comme un leaf
+// litteral (par exemple ">100" ou "A > > B" ne sont pas une hierarchie
+// valide et restent une feuille a un seul segment).
 export function splitPath(name: string): string[] {
-  const parts = name
-    .split("/")
-    .map((s) => s.trim())
-    .filter((s) => s.length > 0);
-  return parts.length === 0 ? [name] : parts;
+  if (!name.includes(SEPARATOR)) return [name];
+  const rawParts = name.split(SEPARATOR_REGEX);
+  if (rawParts.some((p) => p.length === 0)) return [name];
+  return rawParts;
 }
 
 export type SheetTreeNode = {
@@ -55,7 +63,7 @@ export function buildTree(
 
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      path = path === "" ? seg : `${path}/${seg}`;
+      path = path === "" ? seg : `${path}${SEPARATOR_DISPLAY}${seg}`;
 
       let node = level.get(seg);
       if (!node) {
@@ -116,22 +124,23 @@ export function buildTree(
   return rootBuilders.map((b) => materialize(b, 0));
 }
 
-// Donne le chemin du dossier parent ("Region/France" -> "Region",
-// "France" -> null).
+// Donne le chemin du dossier parent ("Region > France" -> "Region",
+// "France" -> null). Renvoie null si splitPath ne reconnait pas le nom
+// comme une hierarchie (cas des noms ambigus type ">100").
 export function parentFolderPath(fullPath: string): string | null {
-  const idx = fullPath.lastIndexOf("/");
-  if (idx <= 0) return null;
-  return fullPath.substring(0, idx);
+  const segments = splitPath(fullPath);
+  if (segments.length < 2) return null;
+  return segments.slice(0, -1).join(SEPARATOR_DISPLAY);
 }
 
-// Dernier segment du chemin ("Region/France" -> "France").
+// Dernier segment du chemin ("Region > France" -> "France"). Si le nom
+// n'est pas une hierarchie reconnue, renvoie le nom complet.
 export function leafName(fullPath: string): string {
-  const idx = fullPath.lastIndexOf("/");
-  if (idx < 0) return fullPath;
-  return fullPath.substring(idx + 1);
+  const segments = splitPath(fullPath);
+  return segments[segments.length - 1];
 }
 
-// Compose un nouveau chemin "<folder>/<leaf>" en gerant le cas folder=null.
+// Compose un nouveau chemin "<folder> > <leaf>" en gerant le cas folder=null.
 export function joinPath(folder: string | null, leaf: string): string {
-  return folder ? `${folder}/${leaf}` : leaf;
+  return folder ? `${folder}${SEPARATOR_DISPLAY}${leaf}` : leaf;
 }

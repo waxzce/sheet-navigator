@@ -10,7 +10,7 @@ Cross-platform Office Add-in (Mac, Windows, Web) that adds a side panel to Excel
 
 - Compact list of all sheets, click to activate (selects `A1`)
 - Colored dot on the left (`tabColor`), name in the middle, action icons on hover
-- **Folder hierarchy via `/`** in sheet names: `Region/France` and `Region/Germany` appear as children of an expandable "Region" folder. Unlimited depth. Drag between folders renames automatically. Collapse state persisted per workbook.
+- **Folder hierarchy via `>`** in sheet names: `Region > France` and `Region > Germany` appear as children of an expandable "Region" folder. Unlimited depth. Drag between folders renames automatically. Collapse state persisted per workbook. (We use `>` because Excel forbids `/` in sheet names — same goes for `\ ? * [ ]`.)
 - Accent-insensitive, case-insensitive search
 - Toolbar: show/hide hidden sheets, sort by workbook or alpha, refresh
 - Toggle individual sheet visibility via the eye icon
@@ -137,7 +137,7 @@ src/
       SheetRow.tsx
       FolderRow.tsx        # Folder header with disclosure triangle
     utils/
-      tree.ts              # Pure tree builder from "/"-delimited sheet names
+      tree.ts              # Pure tree builder from ">"-delimited sheet names
   commands/
     commands.ts            # Function file referenced by the manifest (empty)
     commands.html

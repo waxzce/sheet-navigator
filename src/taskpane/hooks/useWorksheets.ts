@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { leafName, joinPath } from "../utils/tree";
 
 // L'API office-js renvoie `visibility` comme une union enum + literals
 // ("Visible" | "Hidden" | "VeryHidden"), donc on conserve cette largeur ici.
@@ -227,8 +228,8 @@ export function useWorksheets(): UseWorksheetsResult {
         ws.load("name");
         await context.sync();
 
-        const currentLeaf = ws.name.split("/").pop() || ws.name;
-        const newName = targetFolder ? `${targetFolder}/${currentLeaf}` : currentLeaf;
+        const currentLeaf = leafName(ws.name);
+        const newName = joinPath(targetFolder, currentLeaf);
         if (newName !== ws.name) {
           ws.name = newName;
         }

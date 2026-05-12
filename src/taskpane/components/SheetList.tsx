@@ -5,6 +5,7 @@ import { FolderRow } from "./FolderRow";
 import {
   buildTree,
   parentFolderPath,
+  leafName,
   type TreeNode,
   type FolderTreeNode,
 } from "../utils/tree";
@@ -14,7 +15,7 @@ type Props = {
   // resultats de recherche en breadcrumb).
   sheets: SheetInfo[];
   // Si vrai, on rend une liste plate avec breadcrumb (mode recherche).
-  // Sinon, on construit un arbre avec dossiers via "/".
+  // Sinon, on construit un arbre avec dossiers via ">".
   flatMode: boolean;
   // Comparateur de tri applique a chaque niveau de l'arbre quand flatMode=false.
   compareSheets: (a: SheetInfo, b: SheetInfo) => number;
@@ -114,7 +115,7 @@ export function SheetList({
   function renderFlat(items: SheetInfo[]) {
     return items.map((s) => {
       const breadcrumb = parentFolderPath(s.name);
-      const leaf = s.name.split("/").pop() || s.name;
+      const leaf = leafName(s.name);
       return (
         <SheetRow
           key={s.id}
